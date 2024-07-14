@@ -46,6 +46,111 @@ void calculateRetirementDate(char* name, int day, int month, int year, char* gen
 	printf("%s, gioi tinh %s, sinh ngay %02d/%02d/%04d. Hien tai (nam %d) %s da %d tuoi. Thoi gian %s duoc nghi huu la thang %02d/%04d.\n",
 		name, gender, day, month, year, current_year, name, current_age, name, month, retirement_year);
 }
+void inputArray(int* arr, int* size) {
+	printf("Nhap so luong phan tu: ");
+	scanf("%d", size);
+	printf("Nhap cac phan tu: ");
+	for (int i = 0; i < *size; i++) {
+		scanf("%d", arr + i);
+	}
+}
+
+
+void outputArray(int* arr, int size) {
+	for (int i = 0; i < size; i++) {
+		printf("%d ", *(arr + i));
+	}
+	printf("\n");
+}
+
+
+int* findMax(int* arr, int size) {
+	int* maxPtr = arr;
+	for (int i = 1; i < size; i++) {
+		if (*(arr + i) > *maxPtr) {
+			maxPtr = arr + i;
+		}
+	}
+	return maxPtr;
+}
+
+
+void findEvenOddMaxMin(int* arr, int size, int** evenMax, int** oddMin) {
+	*evenMax = NULL;
+	*oddMin = NULL;
+	for (int i = 0; i < size; i++) {
+		if (*(arr + i) % 2 == 0) {
+			if (*evenMax == NULL || *(arr + i) > **evenMax) {
+				*evenMax = arr + i;
+			}
+		}
+		else {
+			if (*oddMin == NULL || *(arr + i) < **oddMin) {
+				*oddMin = arr + i;
+			}
+		}
+	}
+}
+
+
+int removeZeros(int* arr, int size) {
+	int newSize = 0;
+	for (int i = 0; i < size; i++) {
+		if (*(arr + i) != 0) {
+			*(arr + newSize++) = *(arr + i);
+		}
+	}
+	return newSize;
+}
+
+
+int addElement(int* arr, int size, int x) {
+	for (int i = size; i > 1; i--) {
+		*(arr + i) = *(arr + i - 1);
+	}
+	*(arr + 1) = x;
+	return size + 1;
+}
+
+bool isPerfectSquare(int num) {
+	int root = (int)sqrt(num);
+	return root * root == num;
+}
+
+
+int sumPerfectSquares(int* arr, int size) {
+	int sum = 0;
+	for (int i = 0; i < size; i++) {
+		if (isPerfectSquare(*(arr + i))) {
+			sum += *(arr + i);
+		}
+	}
+	return sum;
+}
+
+
+void findLocalMaxima(int* arr, int size) {
+	if (size == 1) {
+		printf("%d ", *arr);
+		return;
+	}
+
+	if (*(arr) > *(arr + 1)) {
+		printf("%d ", *(arr));
+	}
+
+	for (int i = 1; i < size - 1; i++) {
+		if (*(arr + i) > *(arr + i - 1) && *(arr + i) > *(arr + i + 1)) {
+			printf("%d ", *(arr + i));
+		}
+	}
+
+	if (*(arr + size - 1) > *(arr + size - 2)) {
+		printf("%d ", *(arr + size - 1));
+	}
+	printf("\n");
+}
+
 
 int main()
 {
@@ -88,6 +193,55 @@ int main()
 			scanf("%s", gender);
 
 			calculateRetirementDate(name, day, month, year, gender);
+
+		}break;
+		case 3 :
+		{
+			int arr[100];
+			int size, x;
+
+		
+			inputArray(arr, &size);
+
+	
+			int* maxPtr = findMax(arr, size);
+			printf("Phan tu lon nhat la %d tai dia chi %p\n", *maxPtr, (void*)maxPtr);
+
+		
+			int* evenMax, * oddMin;
+			findEvenOddMaxMin(arr, size, &evenMax, &oddMin);
+			if (evenMax != NULL) {
+				printf("Phan tu chan lon nhat la %d tai dia chi %p\n", *evenMax, (void*)evenMax);
+			}
+			else {
+				printf("Khong co phan tu chan trong mang.\n");
+			}
+			if (oddMin != NULL) {
+				printf("Phan tu le nho nhat la %d tai dia chi %p\n", *oddMin, (void*)oddMin);
+			}
+			else {
+				printf("Khong co phan tu le trong mang.\n");
+			}
+
+		
+			size = removeZeros(arr, size);
+			printf("Mang sau khi xoa cac phan tu co gia tri 0: ");
+			outputArray(arr, size);
+
+			
+			printf("Nhap gia tri x de them vao sau phan tu dau tien: ");
+			scanf("%d", &x);
+			size = addElement(arr, size, x);
+			printf("Mang sau khi them x: ");
+			outputArray(arr, size);
+
+			
+			int sum = sumPerfectSquares(arr, size);
+			printf("Tong cac phan tu la so chinh phuong: %d\n", sum);
+
+			
+			printf("Cac so cuc dai trong mang: ");
+			findLocalMaxima(arr, size);
 
 		}break;
 
