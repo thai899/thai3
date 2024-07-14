@@ -150,7 +150,88 @@ void findLocalMaxima(int* arr, int size) {
 	}
 	printf("\n");
 }
+struct 
+{
+	int tu;
+	int mau;
 
+}Phan so;
+
+void nhapmangphanso(Phan so* arr, int size)
+{
+	for (int i = 0; i < size; i++) {
+		printf("Nhap tu va mau cho phan so thu %d: ", i + 1);
+		scanf("%d %d", &arr[i].tu, &arr[i].mau);
+		while (arr[i].mau == 0) {
+			printf("Mau so phai khac 0. Nhap lai mau so cho phan so thu %d: ", i + 1);
+			scanf("%d", &arr[i].mau);
+		}
+	}
+}
+void xuatmangphanso(Phanso* arry, int size)
+{
+	for (int i = 0; i < size; i++) {
+		printf("%d/%d ", arr[i].tu, arr[i].mau);
+	}
+	printf("\n");
+}
+int UCLN(int a, int b)
+{
+	if (b == 0) return a;
+	return UCLN(b, a % b);
+
+}
+
+void rutGonPhanSo(PhanSo* ps) {
+	int ucln = UCLN(ps->tu, ps->mau);
+	ps->tu /= ucln;
+	ps->mau /= ucln;
+}
+void xuatPhanSoMauLonHonTu(PhanSo* arr, int size) {
+	for (int i = 0; i < size; i++) {
+		if (arr[i].mau > arr[i].tu) {
+			printf("%d/%d ", arr[i].tu, arr[i].mau);
+		}
+	}
+	printf("\n");
+}
+
+
+int demPhanSoTuMauChan(PhanSo* arr, int size) {
+	int count = 0;
+	for (int i = 0; i < size; i++) {
+		if (arr[i].tu % 2 == 0 && arr[i].mau % 2 == 0) {
+			count++;
+		}
+	}
+	return count;
+}
+
+
+PhanSo tinhTichMangPhanSo(PhanSo* arr, int size) {
+	PhanSo tich = { 1, 1 };
+	for (int i = 0; i < size; i++) {
+		tich.tu *= arr[i].tu;
+		tich.mau *= arr[i].mau;
+	}
+	rutGonPhanSo(&tich);
+	return tich;
+}
+
+
+int soSanhPhanSo(PhanSo a, PhanSo b) {
+	return a.tu * b.mau - b.tu * a.mau;
+}
+
+PhanSo timPhanSoLonNhat(PhanSo* arr, int size) {
+	PhanSo max = arr[0];
+	for (int i = 1; i < size; i++) {
+		if (soSanhPhanSo(arr[i], max) > 0) {
+			max = arr[i];
+		}
+	}
+	return max;
+}
 
 int main()
 {
@@ -171,7 +252,7 @@ int main()
 			scanf_s("%d", &b);
 			printf("Nhap vao so nguyen c : ");
 			scanf_s("%d", &c);
-			if (a - b = 0)
+			if (a - b == 0)
 				printf(" %d / (%d -%d) la khong tinh duoc ");
 			else
 				printf("%d / (%d - %d) la : ", c, a, b,c/(a-b));
@@ -244,6 +325,44 @@ int main()
 			findLocalMaxima(arr, size);
 
 		}break;
+		case 4 :
+		{
+			int size;
+			printf("Nhap so luong phan so: ");
+			scanf("%d", &size);
+
+			PhanSo* arr = (PhanSo*)malloc(size * sizeof(PhanSo));
+
+			
+			nhapmangPhanSo(arr, size);
+			printf("Mang phan so vua nhap: ");
+			xuatMangPhanSo(arr, size);
+
+			
+			printf("Cac phan so co mau > tu: ");
+			xuatPhanSoMauLonHonTu(arr, size);
+
+			
+			int count = demPhanSoTuMauChan(arr, size);
+			printf("So phan so co tu va mau chan: %d\n", count);
+
+			
+			for (int i = 0; i < size; i++) {
+				rutGonPhanSo(&arr[i]);
+			}
+			printf("Mang phan so sau khi rut gon: ");
+			xuatmangPhanSo(arr, size);
+
+			
+			PhanSo tich = tinhTichMangPhanSo(arr, size);
+			printf("Tich cua cac phan so trong mang: %d/%d\n", tich.tu, tich.mau);
+
+			
+			PhanSo max = timPhanSoLonNhat(arr, size);
+			printf("Phan so lon nhat: %d/%d\n", max.tu, max.mau);
+
+			free(arr);
+		}
 
 
 
