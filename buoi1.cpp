@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 void menu()
 {
 	printf("Bai 1");
@@ -232,6 +233,27 @@ PhanSo timPhanSoLonNhat(PhanSo* arr, int size) {
 	}
 	return max;
 }
+void toUpperCase(char* st) {
+	while (*st) {
+		*st = toupper((unsigned char)*st);
+		st++;
+	}
+}
+
+
+void capitalizeWords(char* st) {
+	int newWord = 1; 
+	while (*st) {
+		if (isspace((unsigned char)*st)) {
+			newWord = 1; 
+		}
+		else if (newWord) {
+			*st = toupper((unsigned char)*st); 
+			newWord = 0;
+		}
+		st++;
+	}
+}
 
 int main()
 {
@@ -398,6 +420,37 @@ int main()
 			printf("Tich: %lf, dia chi: %p\n", tich, (void*)&tich);
 			printf("Thuong: %lf, dia chi: %p\n", thuong, (void*)&thuong);
 		}
+		case 6 :
+		{
+			char* st = (char*)malloc(100 * sizeof(char)); 
+			if (st == NULL) {
+				printf("Khong the cap phat bo nho.\n");
+				return 1;
+			}
+
+		
+			printf("Nhap chuoi: ");
+			fgets(st, 100, stdin);
+			st[strcspn(st, "\n")] = '\0';
+
+			
+			printf("Gia tri tung ky tu trong chuoi: ");
+			char* ptr = st;
+			while (*ptr) {
+				printf("%c ", *ptr);
+				ptr++;
+			}
+			printf("\n");
+
+			
+			toUpperCase(st);
+			printf("Chuoi sau khi chuyen thanh chu hoa: %s\n", st);
+
+			strcpy(st, "truong dai hoc CNTP TPHCM");
+			capitalizeWords(st);
+			printf("Chuoi sau khi chuyen ky tu dau moi tu thanh chu hoa: %s\n", st);
+
+		}break;
 
 		
 
