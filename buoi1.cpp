@@ -363,6 +363,43 @@ int main()
 
 			free(arr);
 		}
+		case 5 :
+		{
+			double a, b;
+			printf("Nhap so thuc a: ");
+			scanf("%lf", &a);
+			printf("Nhap so thuc b: ");
+			scanf("%lf", &b);
+
+			
+			double* pa = &a;
+			double* pb = &b;
+
+			
+			printf("Gia tri cua pa: %lf, dia chi: %p\n", *pa, (void*)pa);
+			printf("Gia tri cua pb: %lf, dia chi: %p\n", *pb, (void*)pb);
+
+			
+			double tong = *pa + *pb;
+			double hieu = *pa - *pb;
+			double tich = *pa * *pb;
+			double thuong;
+			if (*pb != 0) {
+				thuong = *pa / *pb;
+			}
+			else {
+				printf("Khong the chia cho 0.\n");
+				return 1; 
+			}
+
+			
+			printf("Tong: %lf, dia chi: %p\n", tong, (void*)&tong);
+			printf("Hieu: %lf, dia chi: %p\n", hieu, (void*)&hieu);
+			printf("Tich: %lf, dia chi: %p\n", tich, (void*)&tich);
+			printf("Thuong: %lf, dia chi: %p\n", thuong, (void*)&thuong);
+		}
+
+		
 
 
 
